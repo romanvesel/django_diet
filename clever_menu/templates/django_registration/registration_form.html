@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+{% block content %}
+
+    <h1>Регистрация</h1>
+    <form method="post" action="">
+        <dl class="register">
+            {% for field in form %}
+                {% csrf_token %}
+                <dt>{{ field.label_tag }}</dt>
+                <dd class="clearfix">{{ field }}
+                    {% if field.help_text %}
+                        <div class="clearfix">{{ field.help_text }}</div>{% endif %}
+                    {% if field.errors %}
+                        <div class="myerrors clearfix">{{ field.errors }}</div>{% endif %}
+                </dd>
+            {% endfor %}
+        </dl>
+        <input type="submit" value="Зарегистрироваться" class="clearfix">
+        <br>
+        <a href="{% url 'login' %}" style="display:inline-block; margin-top: 15px;">Уже есть аккаунт</a>
+    </form>
+
+{% endblock content %}

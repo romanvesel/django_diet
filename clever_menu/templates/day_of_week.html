@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+{% block content %}
+    <section class="section">
+        <div class="section-inner" style="overflow-y: hidden;">
+            <h2 class="heading">Диета <a href="{% url 'profile' pk=profile.user.pk %}">{{ profile.name }}</a>:</h2>
+            <table class="table" style="color: white; width: 100%; margin-bottom: auto;">
+                <thead>
+                <tr>
+                    <th scope="col">День недели</th>
+                    <th scope="col">Время приёма пищи</th>
+                    <th scope="col">Блюдо</th>
+                    <th scope="col">Каллории</th>
+                    <th scope="col">Лимит каллорий</th>
+                    <th scope="col" style="width: 35%">Рецепт</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% load get_random %}
+                {% for day_item in days_list %}
+                    {% for dish in day_item.dishes.all %}
+                        <tr style="border-bottom: 1px solid whitesmoke;">
+                            <th scope="row">{% if forloop.counter0 == 0 %}{{ day_item.get_type_display }}{% endif %}</th>
+                                <td>
+                                    {% if forloop.counter0 == 0 %}
+                                        Завтрак
+                                    {% elif forloop.counter0 == 1 %}
+                                        Обед
+                                    {% else %}
+                                        Ужин
+                                    {% endif %}
+                                </td>
+                                <td>{{ dish.name }}</td>
+                                <td>{{ dish.kkal_of_dish }}</td>
+                                <td>
+                                    {% if forloop.counter0 == 0 %}
+                                        {{ day_item.profile.kkal_limit_breakfast }}
+                                    {% elif forloop.counter0 == 1 %}
+                                        {{ day_item.profile.kkal_limit_dinner }}
+                                    {% else %}
+                                        {{ day_item.profile.kkal_limit_sup }}
+                                    {% endif %}
+                                </td>
+                                <td class="recipe" data-dish-name="{{ dish.name }}">{{ dish.recipe }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Рецепт</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block extrahead %}
+        <script type="text/javascript">
+            (() => {
+                document.querySelectorAll('.recipe').forEach(item => {
+                    if (item.innerHTML.length > 50) {
+                        let text = item.innerHTML;
+                        item.innerHTML = item.innerHTML.substr(0, 45) + '...'
+                        item.setAttribute('data-toggle', 'modal')
+                        item.setAttribute('data-target', '#myModal')
+                        item.addEventListener('click', () => {
+                            document.querySelector('.modal-body').innerHTML = text
+                            document.querySelector('.modal-title').innerHTML = `Рецепт - ${item.getAttribute('data-dish-name')}`
+                        })
+                    }
+                })
+            })()
+        </script>
+    {% endblock extrahead %}
+{% endblock %}

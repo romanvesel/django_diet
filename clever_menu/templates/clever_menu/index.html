@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+            <!-- Begin .HorizontalTab -->
+            <div class="VerticalTab VerticalTab_hash_scroll VerticalTab_6 tabs_ver_6">
+
+              <ul class="resp-tabs-list hor_1">
+                <a href=""><div class="logo"><img src="{% static 'clever_menu/img/logo.png' %}"></div></a>
+                <li class="tabs-1" data-tab-name="profile"><span class="tabs-text">Приветствие</span></li>
+                <li class="tabs-2" data-tab-name="resume"><span class="tabs-text">О нас</span></li>
+                  {% if not user.is_authenticated %}
+                    <a href="{% url 'django_registration_register' %}">
+                  {% else %}
+                    <a href="{% url 'dishes' %}">
+                  {% endif %}
+                    <button><li class="button">Начать пользоваться</button></a>
+              </ul>
+
+              <div class="resp-tabs-container hor_1 tabs_scroll">
+
+                <div class="fc-tab-1">
+
+                  <div class="home-container">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="left-content">
+                          <div class="left-line"></div>
+                          <h2>Спорт, Еда &amp; Удовльствие <em>CLEVER MENU</em></h2>
+                          <p>Представляем Вам новое приложение, для правильного питания.</p>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="right-content">
+                          <img src="{% static 'clever_menu/img/home-image.jpg' %}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="fc-tab-2">
+
+                  <div class="about-container">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h2>Для чего созадно это <em>приложение?</em></h2>
+                        <div class="under-line"></div>
+                        <p>«Скажи мне, что ты ешь, и я скажу, чем ты болеешь».<br><br>Если вы думаете,
+                          что формула красивой фигуры – это вес на вашей штанге или проведенные часы в фитнес-клубе, то вы сильно заблуждаетесь.
+                        Правильное питание – залог здоровья, силы и красоты.
+                        Наше приложение поможет Вам подобрать оптимальный рацион для правильного питания.</p>
+                        <img src="{% static 'clever_menu/img/about-image.jpg' %}">
+                      </div>
+                    </div>
+                  </div>
+
+{% endblock %}

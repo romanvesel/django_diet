@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+{% block content %}
+    {% if user.is_authenticated  and user.id == profile.user.pk %}
+        <div class="container sections-wrapper">
+        <div class="row">
+        <div class="primary col-md-8 col-sm-12 col-xs-12">
+        <section class="about section">
+            <div class="section-inner">
+                <h2 class="heading">Мои данные: {{ profile.name }}:<a href="{% url 'dishes' %}"> Моя диета </a></h2>
+                <h2 style="position: fixed; top: 0; right: 10%;"><a href="{% url 'logout' %}">Выйти</a></h2>
+                <div class="content">
+                    <p>
+                    <p>
+
+                </div><!--//content-->
+            </div><!--//section-inner-->
+        </section><!--//section-->
+
+        <section class="section">
+            <div class="section-inner">
+                <h2 class="heading">Заполнить форму</h2>
+                <form action="{% url 'profile_update' pk=profile.pk %}" method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}}
+                    <br><input type="submit" value="Подтвердить">
+                </form>
+            </div>
+        </section>
+
+    {% else %}
+        Вы не вошли в систему, залогинтесь - <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+</div>
+{% endblock %}
